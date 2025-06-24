@@ -20,7 +20,9 @@ authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],
-    config['cookie']['expiry_days']
+    config['cookie']['expiry_days'],
+    auto_hash=True
+
 )
 
 auth_result = authenticator.login('main')
