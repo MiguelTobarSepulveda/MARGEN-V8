@@ -24,16 +24,8 @@ authenticator = stauth.Authenticate(
 
 )
 
-auth_result = authenticator.login('main')
+name, authentication_status, username = authenticator.login('main')
 
-if auth_result:
-    name = auth_result['name']
-    authentication_status = auth_result['authentication_status']
-    username = auth_result['username']
-else:
-    name = None
-    authentication_status = None
-    username = None
 
 
 
