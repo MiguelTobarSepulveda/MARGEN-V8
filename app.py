@@ -1,42 +1,35 @@
 import streamlit as st
-import pandas as pd
-import requests
-import streamlit_authenticator as stauth
-import yaml
-from yaml.loader import SafeLoader
-from io import BytesIO
 
-# --------- CONFIGURACIÓN DE LOGIN ---------
-try:
-    with open('usuarios.yaml') as file:
-        config = yaml.load(file, Loader=SafeLoader)
-    st.success("usuarios.yaml cargado correctamente")
-except Exception as e:
-    st.error(f"Error al cargar usuarios.yaml: {e}")
+# Diccionario de usuarios y contraseñas permitidas
+USUARIOS = {
+    "miguel": "1234",
+    "jsmith": "abc123"
+}
+
+# Estado de sesión para recordar si el usuario ya se logueó
+if "logueado" not in st.session_state:
+    st.session_state["logueado"] = False
+
+def login():
+    st.title("Login")
+    usuario = st.text_input("Usuario")
+    clave = st.text_input("Contraseña", type="password")
+    if st.button("Entrar"):
+        if usuario in USUARIOS and clave == USUARIOS[usuario]:
+            st.session_state["logueado"] = True
+            st.session_state["usuario"] = usuario
+            st.success(f"¡Bienvenido, {usuario}!")
+            st.experimental_rerun()
+        else:
+            st.error("Usuario o contraseña incorrectos")
+
+if not st.session_state["logueado"]:
+    login()
     st.stop()
+else:
+    st.sidebar.success(f"Sesión iniciada como {st.session_state['usuario']}")
+    # A partir de aquí va el resto de tu app normal
 
-
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
-
-)
-
-name, authentication_status, username = authenticator.login('main')
-
-
-
-
-if authentication_status is False:
-    st.error('Usuario/contraseña incorrectos')
-if authentication_status is None:
-    st.warning('Por favor ingresa tus credenciales')
-
-if authentication_status:
-    authenticator.logout('Cerrar sesión', 'sidebar')
-    st.sidebar.success(f'Bienvenido, {name}!')
 
     # --------- CARGA AUTOMÁTICA DEL ARCHIVO DESDE GOOGLE DRIVE ---------
     url_drive = 'https://docs.google.com/spreadsheets/d/1QhyIyTnKyupJ7Cg_TUMHUX0jcu-RbJuj/edit?usp=sharing&ouid=109595435915826227233&rtpof=true&sd=true'
