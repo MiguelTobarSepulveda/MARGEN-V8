@@ -12,6 +12,3 @@ cookie:
   expiry_days: 3
   key: "algo_ultrasecreto"
   name: "cookie_margen"
-
-
-
