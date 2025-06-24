@@ -1,4 +1,8 @@
 import streamlit as st
+import pandas as pd
+import requests          # <---- ¡Agrega esta línea!
+from io import BytesIO
+
 
 # Diccionario de usuarios y contraseñas permitidas
 USUARIOS = {
