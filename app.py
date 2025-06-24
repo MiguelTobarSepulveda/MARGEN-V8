@@ -37,7 +37,7 @@ else:
 
 
     # --------- CARGA AUTOMÁTICA DEL ARCHIVO DESDE GOOGLE DRIVE ---------
-    url_drive = 'https://docs.google.com/spreadsheets/d/1QhyIyTnKyupJ7Cg_TUMHUX0jcu-RbJuj/edit?usp=sharing&ouid=109595435915826227233&rtpof=true&sd=true'
+    url_drive = 'https://docs.google.com/spreadsheets/d/1QhyIyTnKyupJ7Cg_TUMHUX0jcu-RbJuj/edit?usp=drive_link&ouid=109595435915826227233&rtpof=true&sd=true'
     @st.cache_data(show_spinner=False)
     def cargar_excel_drive(url):
         response = requests.get(url)
