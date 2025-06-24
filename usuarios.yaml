@@ -3,11 +3,11 @@ credentials:
     miguel:
       email: miguel@correo.com
       name: Miguel Tobar
-      password: 1234
+      password: $2b$12$6dPx3K7Cb9GOo0oVabGDCu1AyEG0WB/0ow6kzm6KoRl/fh1ti/OSq
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
-      password: abc123
+      password: $2b$12$PuwR/fVaP9cobkI55ACrAu3fO96qU9ClkaJdb6MoMma5wPWnFvTO2
 cookie:
   expiry_days: 3
   key: "algo_ultrasecreto"
