@@ -1,18 +1,14 @@
 credentials:
   usernames:
+    miguel:
+      email: miguel@correo.com
+      name: Miguel Tobar
+      password: 1234
     jsmith:
       email: jsmith@gmail.com
-      first_name: John
-      last_name: Smith
+      name: John Smith
       password: abc123
-      roles: [viewer]
-    rbriggs:
-      email: rbriggs@gmail.com
-      first_name: Miguel
-      last_name: Tobar
-      password: Ghelo1988
-      roles: [admin, editor]
 cookie:
-  expiry_days: 30
-  key: "alguna_clave_secreta_unica"
-  name: "nombre_de_cookie"
+  expiry_days: 3
+  key: "algo_ultrasecreto"
+  name: "cookie_margen"
