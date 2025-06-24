@@ -1,0 +1,21 @@
+credentials:
+  usernames:
+    jsmith:
+      email: jsmith@gmail.com
+      first_name: John
+      last_name: Smith
+      password: abc123   # Puede ser texto plano; la librería lo hasheará automáticamente
+      roles: [viewer]    # Opcional: lista de roles del usuario
+    rbriggs:
+      email: rbriggs@gmail.com
+      first_name: Miguel
+      last_name: Tobar
+      password: Ghelo1988
+      roles: [admin, editor]
+cookie:
+  expiry_days: 30
+  key: "alguna_clave_secreta_unica"
+  name: "nombre_de_cookie"
+# pre-authorized:
+#   emails:
+#     - otro@ejemplo.com1
