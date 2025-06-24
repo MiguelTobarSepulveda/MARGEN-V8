@@ -7,8 +7,14 @@ from yaml.loader import SafeLoader
 from io import BytesIO
 
 # --------- CONFIGURACIÓN DE LOGIN ---------
-with open('usuarios.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
+try:
+    with open('usuarios.yaml') as file:
+        config = yaml.load(file, Loader=SafeLoader)
+    st.success("usuarios.yaml cargado correctamente")
+except Exception as e:
+    st.error(f"Error al cargar usuarios.yaml: {e}")
+    st.stop()
+
 
 authenticator = stauth.Authenticate(
     config['credentials'],
