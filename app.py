@@ -47,14 +47,23 @@ else:
             st.error('No se pudo descargar el archivo de Google Drive.')
             return None
 
-    excel = cargar_excel_drive(url_drive)
-    if excel is not None:
-        st.success("Archivo cargado correctamente.")
+    @st.cache_data(show_spinner=False)
+def cargar_excels_drive(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        xls = pd.ExcelFile(BytesIO(response.content))
+        ventas = pd.read_excel(xls, sheet_name="LIBRO DE VENTAS")
+        recetas = pd.read_excel(xls, sheet_name="RECETAS DE PRODUCTOS")
+        precios = pd.read_excel(xls, sheet_name="PRECIO DE INSUMOS")
+        return ventas, recetas, precios
+    else:
+        st.error('No se pudo descargar el archivo de Google Drive.')
+        return None, None, None
 
-        # ------ Lee tus hojas aquí ------
-        ventas = pd.read_excel(excel, sheet_name="LIBRO DE VENTAS")
-        recetas = pd.read_excel(excel, sheet_name="RECETAS DE PRODUCTOS")
-        precios = pd.read_excel(excel, sheet_name="PRECIO DE INSUMOS")
+ventas, recetas, precios = cargar_excels_drive(url_drive)
+if ventas is not None:
+    st.success("Archivo cargado correctamente.")
+
         
         # --------- FILTROS DE CONSULTA ---------
         cliente_sel = st.sidebar.selectbox("Cliente", ["Todos"] + sorted(ventas["CLIENTE"].unique().tolist()))
