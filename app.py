@@ -65,25 +65,25 @@ if ventas is not None:
     st.success("Archivo cargado correctamente.")
 
         
-        # --------- FILTROS DE CONSULTA ---------
-        cliente_sel = st.sidebar.selectbox("Cliente", ["Todos"] + sorted(ventas["CLIENTE"].unique().tolist()))
-        producto_sel = st.sidebar.selectbox("Producto", ["Todos"] + sorted(ventas["NOMBRE DE PRODUCTO"].unique().tolist()))
-        mes_sel = st.sidebar.selectbox("Mes", ["Todos"] + sorted(pd.to_datetime(ventas["FECHA"]).dt.strftime('%Y-%m').unique()))
+# -------- FILTROS DE CONSULTA --------
+cliente_sel = st.sidebar.selectbox("Cliente", ["Todos"] + sorted(ventas["CLIENTE"].unique().tolist()))
+producto_sel = st.sidebar.selectbox("Producto", ["Todos"] + sorted(ventas["NOMBRE DE PRODUCTO"].unique().tolist()))
+mes_sel = st.sidebar.selectbox("Mes", ["Todos"] + sorted(pd.to_datetime(ventas["FECHA"]).dt.strftime('%Y-%m').unique()))
 
-        # --------- APLICAR FILTROS ---------
-        data = ventas.copy()
-        if cliente_sel != "Todos":
-            data = data[data["CLIENTE"] == cliente_sel]
-        if producto_sel != "Todos":
-            data = data[data["NOMBRE DE PRODUCTO"] == producto_sel]
-        if mes_sel != "Todos":
-            data = data[pd.to_datetime(data["FECHA"]).dt.strftime('%Y-%m') == mes_sel]
+# -------- APLICAR FILTROS --------
+data = ventas.copy()
+if cliente_sel != "Todos":
+    data = data[data["CLIENTE"] == cliente_sel]
+if producto_sel != "Todos":
+    data = data[data["NOMBRE DE PRODUCTO"] == producto_sel]
+if mes_sel != "Todos":
+    data = data[pd.to_datetime(data["FECHA"]).dt.strftime('%Y-%m') == mes_sel]
 
-        # --------- RESULTADOS FILTRADOS ---------
-        st.write("Resultados filtrados:")
-        st.dataframe(data)
-        
-        st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
+# -------- RESULTADOS FILTRADOS --------
+st.write("Resultados filtrados:")
+st.dataframe(data)
+st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
 
-    else:
-        st.error("No se pudo cargar el archivo.")
+
+ else:
+    st.error("No se pudo cargar el archivo.")
