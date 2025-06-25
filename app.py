@@ -39,9 +39,9 @@ else:
     # --------- CARGA AUTOMÁTICA DEL ARCHIVO DESDE GOOGLE DRIVE ---------
     url_drive = 'https://drive.google.com/uc?export=download&id=1QhyIyTnKyupJ7Cg_TUMHUX0jcu-RbJuj'
    
-    @st.cache_data(show_spinner=False)
-    def cargar_excels_drive(url):
-       response = requests.get(url)
+@st.cache_data(show_spinner=False)
+def cargar_excels_drive(url):
+    response = requests.get(url)
     if response.status_code == 200:
         xls = pd.ExcelFile(BytesIO(response.content))
         ventas = pd.read_excel(xls, sheet_name="LIBRO DE VENTAS")
@@ -51,6 +51,8 @@ else:
     else:
         st.error('No se pudo descargar el archivo de Google Drive.')
         return None, None, None
+
+
 
 ventas, recetas, precios = cargar_excels_drive(url_drive)
 
