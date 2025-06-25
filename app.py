@@ -17,7 +17,8 @@ st.markdown("""
 # Diccionario de usuarios y contraseñas permitidas
 USUARIOS = {
     "miguel": "1234",
-    "jsmith": "abc123"
+    "jsmith": "abc123",
+    "John": "5678",
 }
 
 # Estado de sesión para recordar si el usuario ya se logueó
