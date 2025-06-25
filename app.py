@@ -113,7 +113,7 @@ if ventas is not None:
     st.write("Resultados filtrados:")
     st.dataframe(filtro_df, use_container_width=True)
     st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
-   import numpy as np
+    import numpy as np
 
     if not filtro_df.empty:
         filtro_df = filtro_df.copy()
