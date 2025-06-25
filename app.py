@@ -86,42 +86,47 @@ if ventas is not None:
     # Filtro MES
     # --- FILTROS EN UNA SOLA FILA ---
     col1, col2, col3 = st.columns(3)
-    with col1:
-        # Mes
-        if st.session_state["mes_sel"] in meses_opciones:
-            idx_mes = meses_opciones.index(st.session_state["mes_sel"])
-        else:
-            idx_mes = 0
-        mes_sel = st.selectbox("Mes", meses_opciones, index=idx_mes)
-    if mes_sel != "Todos":
-        filtro_df = filtro_df[filtro_df["MES"] == mes_sel]
 
+    # Genera las opciones según los datos actualmente filtrados
+    # Paso 1: Todos los datos
+    filtro_temp = ventas.copy()
+
+    # Filtro de Cliente
     with col2:
-        cliente_opciones = ["Todos"] + sorted(filtro_df["CLIENTE"].unique())
-        if st.session_state["cliente_sel"] in cliente_opciones:
-            idx_cliente = cliente_opciones.index(st.session_state["cliente_sel"])
-        else:
-            idx_cliente = 0
+        cliente_opciones = ["Todos"] + sorted(filtro_temp["CLIENTE"].unique())
+        idx_cliente = cliente_opciones.index(st.session_state["cliente_sel"]) if st.session_state["cliente_sel"] in cliente_opciones else 0
         cliente_sel = st.selectbox("Cliente", cliente_opciones, index=idx_cliente)
     if cliente_sel != "Todos":
-        filtro_df = filtro_df[filtro_df["CLIENTE"] == cliente_sel]
+        filtro_temp = filtro_temp[filtro_temp["CLIENTE"] == cliente_sel]
 
+    # Filtro de Producto
     with col3:
-        producto_opciones = ["Todos"] + sorted(filtro_df["NOMBRE DE PRODUCTO"].unique())
-        if st.session_state["producto_sel"] in producto_opciones:
-            idx_producto = producto_opciones.index(st.session_state["producto_sel"])
-        else:
-            idx_producto = 0
+        producto_opciones = ["Todos"] + sorted(filtro_temp["NOMBRE DE PRODUCTO"].unique())
+        idx_producto = producto_opciones.index(st.session_state["producto_sel"]) if st.session_state["producto_sel"] in producto_opciones else 0
         producto_sel = st.selectbox("Producto", producto_opciones, index=idx_producto)
     if producto_sel != "Todos":
+        filtro_temp = filtro_temp[filtro_temp["NOMBRE DE PRODUCTO"] == producto_sel]
+
+    # Ahora SOLO los meses que quedan después de los otros filtros
+    with col1:
+        meses_opciones = ["Todos"] + sorted(filtro_temp["MES"].unique())
+        idx_mes = meses_opciones.index(st.session_state["mes_sel"]) if st.session_state["mes_sel"] in meses_opciones else 0
+        mes_sel = st.selectbox("Mes", meses_opciones, index=idx_mes)
+
+    # Ahora aplica los filtros de verdad a tu DataFrame principal:
+    filtro_df = ventas.copy()
+    if cliente_sel != "Todos":
+        filtro_df = filtro_df[filtro_df["CLIENTE"] == cliente_sel]
+    if producto_sel != "Todos":
         filtro_df = filtro_df[filtro_df["NOMBRE DE PRODUCTO"] == producto_sel]
-
-
+    if mes_sel != "Todos":
+        filtro_df = filtro_df[filtro_df["MES"] == mes_sel]
 
     # Guarda selección actual
     st.session_state["mes_sel"] = mes_sel
     st.session_state["cliente_sel"] = cliente_sel
     st.session_state["producto_sel"] = producto_sel
+
 
     # -------- RESULTADOS FILTRADOS --------
     #st.write("Resultados filtrados:")
