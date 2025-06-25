@@ -103,7 +103,7 @@ if ventas is not None:
 
     # -------- RESULTADOS FILTRADOS --------
     st.write("Resultados filtrados:")
-    st.dataframe(filtro_df)
+    st.dataframe(filtro_df, use_container_width=True)
     st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
 
 else:
