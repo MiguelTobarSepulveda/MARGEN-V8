@@ -19,6 +19,7 @@ USUARIOS = {
     "miguel": "1234",
     "jsmith": "abc123",
     "John": "5678",
+    "crivera": "armony",
 }
 
 # Estado de sesión para recordar si el usuario ya se logueó
