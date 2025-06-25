@@ -85,5 +85,6 @@ st.dataframe(data)
 st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
 
 
- else:
+else:
     st.error("No se pudo cargar el archivo.")
+
