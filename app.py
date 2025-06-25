@@ -87,21 +87,35 @@ if ventas is not None:
     # --- FILTROS EN UNA SOLA FILA ---
     col1, col2, col3 = st.columns(3)
     with col1:
-        mes_sel = st.selectbox("Mes", meses_opciones, index=meses_opciones.index(st.session_state["mes_sel"]))
+        # Mes
+        if st.session_state["mes_sel"] in meses_opciones:
+            idx_mes = meses_opciones.index(st.session_state["mes_sel"])
+        else:
+            idx_mes = 0
+        mes_sel = st.selectbox("Mes", meses_opciones, index=idx_mes)
     if mes_sel != "Todos":
         filtro_df = filtro_df[filtro_df["MES"] == mes_sel]
 
     with col2:
         cliente_opciones = ["Todos"] + sorted(filtro_df["CLIENTE"].unique())
-        cliente_sel = st.selectbox("Cliente", cliente_opciones, index=cliente_opciones.index(st.session_state["cliente_sel"]))
+        if st.session_state["cliente_sel"] in cliente_opciones:
+            idx_cliente = cliente_opciones.index(st.session_state["cliente_sel"])
+        else:
+            idx_cliente = 0
+        cliente_sel = st.selectbox("Cliente", cliente_opciones, index=idx_cliente)
     if cliente_sel != "Todos":
         filtro_df = filtro_df[filtro_df["CLIENTE"] == cliente_sel]
 
     with col3:
         producto_opciones = ["Todos"] + sorted(filtro_df["NOMBRE DE PRODUCTO"].unique())
-        producto_sel = st.selectbox("Producto", producto_opciones, index=producto_opciones.index(st.session_state["producto_sel"]))
+        if st.session_state["producto_sel"] in producto_opciones:
+            idx_producto = producto_opciones.index(st.session_state["producto_sel"])
+        else:
+            idx_producto = 0
+        producto_sel = st.selectbox("Producto", producto_opciones, index=idx_producto)
     if producto_sel != "Todos":
         filtro_df = filtro_df[filtro_df["NOMBRE DE PRODUCTO"] == producto_sel]
+
 
 
     # Guarda selección actual
