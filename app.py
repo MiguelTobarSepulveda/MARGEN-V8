@@ -145,7 +145,7 @@ if ventas is not None:
             0
         )
 
-        st.subheader("Resultados filtrados (con costo y margen)")
+        st.subheader("MARGEN POR CLIENTE Y PRODUCTO")
         st.dataframe(
             filtro_df[
                 [
