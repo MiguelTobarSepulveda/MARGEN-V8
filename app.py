@@ -79,7 +79,10 @@ if ventas is not None:
         st.session_state["cliente_sel"] = "Todos"
     if "producto_sel" not in st.session_state:
         st.session_state["producto_sel"] = "Todos"
-
+        
+    # **AGREGA ESTA LÍNEA**
+    meses_opciones = ["Todos"] + sorted(ventas["MES"].unique())
+    
     # Filtro MES
     # --- FILTROS EN UNA SOLA FILA ---
     col1, col2, col3 = st.columns(3)
@@ -100,6 +103,11 @@ if ventas is not None:
     if producto_sel != "Todos":
         filtro_df = filtro_df[filtro_df["NOMBRE DE PRODUCTO"] == producto_sel]
 
+
+    # Guarda selección actual
+    st.session_state["mes_sel"] = mes_sel
+    st.session_state["cliente_sel"] = cliente_sel
+    st.session_state["producto_sel"] = producto_sel
 
     # -------- RESULTADOS FILTRADOS --------
     st.write("Resultados filtrados:")
