@@ -3,6 +3,16 @@ import pandas as pd
 import requests          # <---- ¡Agrega esta línea!
 from io import BytesIO
 
+st.markdown("""
+    <style>
+        .block-container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            max-width: 100vw;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 
 # Diccionario de usuarios y contraseñas permitidas
 USUARIOS = {
@@ -71,27 +81,25 @@ if ventas is not None:
         st.session_state["producto_sel"] = "Todos"
 
     # Filtro MES
-    meses_opciones = ["Todos"] + sorted(ventas["MES"].unique())
-    mes_sel = st.selectbox("Mes", meses_opciones, index=meses_opciones.index(st.session_state["mes_sel"]))
+    # --- FILTROS EN UNA SOLA FILA ---
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        mes_sel = st.selectbox("Mes", meses_opciones, index=meses_opciones.index(st.session_state["mes_sel"]))
     if mes_sel != "Todos":
         filtro_df = filtro_df[filtro_df["MES"] == mes_sel]
 
-    # Filtro CLIENTE dependiente de mes
-    cliente_opciones = ["Todos"] + sorted(filtro_df["CLIENTE"].unique())
-    cliente_sel = st.selectbox("Cliente", cliente_opciones, index=cliente_opciones.index(st.session_state["cliente_sel"]))
+    with col2:
+        cliente_opciones = ["Todos"] + sorted(filtro_df["CLIENTE"].unique())
+        cliente_sel = st.selectbox("Cliente", cliente_opciones, index=cliente_opciones.index(st.session_state["cliente_sel"]))
     if cliente_sel != "Todos":
         filtro_df = filtro_df[filtro_df["CLIENTE"] == cliente_sel]
 
-    # Filtro PRODUCTO dependiente de ambos
-    producto_opciones = ["Todos"] + sorted(filtro_df["NOMBRE DE PRODUCTO"].unique())
-    producto_sel = st.selectbox("Producto", producto_opciones, index=producto_opciones.index(st.session_state["producto_sel"]))
+    with col3:
+        producto_opciones = ["Todos"] + sorted(filtro_df["NOMBRE DE PRODUCTO"].unique())
+        producto_sel = st.selectbox("Producto", producto_opciones, index=producto_opciones.index(st.session_state["producto_sel"]))
     if producto_sel != "Todos":
         filtro_df = filtro_df[filtro_df["NOMBRE DE PRODUCTO"] == producto_sel]
 
-    # Actualiza session_state
-    st.session_state["mes_sel"] = mes_sel
-    st.session_state["cliente_sel"] = cliente_sel
-    st.session_state["producto_sel"] = producto_sel
 
     # -------- RESULTADOS FILTRADOS --------
     st.write("Resultados filtrados:")
