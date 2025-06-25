@@ -80,5 +80,3 @@ if ventas is not None:
 
 else:
     st.error("No se pudo cargar el archivo.")
-
-
