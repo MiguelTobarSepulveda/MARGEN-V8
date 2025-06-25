@@ -59,46 +59,44 @@ ventas, recetas, precios = cargar_excels_drive(url_drive)
 if ventas is not None:
     st.success("Archivo cargado correctamente.")
 
-# ----- FILTROS DINÁMICOS INTERCONECTADOS -----
-ventas['MES'] = pd.to_datetime(ventas["FECHA"]).dt.strftime('%Y-%m')
-filtro_df = ventas.copy()
+    # ----- FILTROS DINÁMICOS INTERCONECTADOS -----
+    ventas['MES'] = pd.to_datetime(ventas["FECHA"]).dt.strftime('%Y-%m')
+    filtro_df = ventas.copy()
 
-# Inicializa filtros con session_state
-if "mes_sel" not in st.session_state:
-    st.session_state["mes_sel"] = "Todos"
-if "cliente_sel" not in st.session_state:
-    st.session_state["cliente_sel"] = "Todos"
-if "producto_sel" not in st.session_state:
-    st.session_state["producto_sel"] = "Todos"
+    if "mes_sel" not in st.session_state:
+        st.session_state["mes_sel"] = "Todos"
+    if "cliente_sel" not in st.session_state:
+        st.session_state["cliente_sel"] = "Todos"
+    if "producto_sel" not in st.session_state:
+        st.session_state["producto_sel"] = "Todos"
 
-# Filtro MES
-meses_opciones = ["Todos"] + sorted(ventas["MES"].unique())
-mes_sel = st.selectbox("Mes", meses_opciones, index=meses_opciones.index(st.session_state["mes_sel"]))
-if mes_sel != "Todos":
-    filtro_df = filtro_df[filtro_df["MES"] == mes_sel]
+    # Filtro MES
+    meses_opciones = ["Todos"] + sorted(ventas["MES"].unique())
+    mes_sel = st.selectbox("Mes", meses_opciones, index=meses_opciones.index(st.session_state["mes_sel"]))
+    if mes_sel != "Todos":
+        filtro_df = filtro_df[filtro_df["MES"] == mes_sel]
 
-# Filtro CLIENTE dependiente de mes
-cliente_opciones = ["Todos"] + sorted(filtro_df["CLIENTE"].unique())
-cliente_sel = st.selectbox("Cliente", cliente_opciones, index=cliente_opciones.index(st.session_state["cliente_sel"]))
-if cliente_sel != "Todos":
-    filtro_df = filtro_df[filtro_df["CLIENTE"] == cliente_sel]
+    # Filtro CLIENTE dependiente de mes
+    cliente_opciones = ["Todos"] + sorted(filtro_df["CLIENTE"].unique())
+    cliente_sel = st.selectbox("Cliente", cliente_opciones, index=cliente_opciones.index(st.session_state["cliente_sel"]))
+    if cliente_sel != "Todos":
+        filtro_df = filtro_df[filtro_df["CLIENTE"] == cliente_sel]
 
-# Filtro PRODUCTO dependiente de ambos
-producto_opciones = ["Todos"] + sorted(filtro_df["NOMBRE DE PRODUCTO"].unique())
-producto_sel = st.selectbox("Producto", producto_opciones, index=producto_opciones.index(st.session_state["producto_sel"]))
-if producto_sel != "Todos":
-    filtro_df = filtro_df[filtro_df["NOMBRE DE PRODUCTO"] == producto_sel]
+    # Filtro PRODUCTO dependiente de ambos
+    producto_opciones = ["Todos"] + sorted(filtro_df["NOMBRE DE PRODUCTO"].unique())
+    producto_sel = st.selectbox("Producto", producto_opciones, index=producto_opciones.index(st.session_state["producto_sel"]))
+    if producto_sel != "Todos":
+        filtro_df = filtro_df[filtro_df["NOMBRE DE PRODUCTO"] == producto_sel]
 
-# Actualiza session_state para que los selectbox mantengan el filtro elegido
-st.session_state["mes_sel"] = mes_sel
-st.session_state["cliente_sel"] = cliente_sel
-st.session_state["producto_sel"] = producto_sel
+    # Actualiza session_state
+    st.session_state["mes_sel"] = mes_sel
+    st.session_state["cliente_sel"] = cliente_sel
+    st.session_state["producto_sel"] = producto_sel
 
-# -------- RESULTADOS FILTRADOS --------
-st.write("Resultados filtrados:")
-st.dataframe(filtro_df)
-st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
-
+    # -------- RESULTADOS FILTRADOS --------
+    st.write("Resultados filtrados:")
+    st.dataframe(filtro_df)
+    st.info("Pronto podrás ver márgenes y más detalles. ¿Qué filtro te gustaría agregar?")
 
 else:
     st.error("No se pudo cargar el archivo.")
